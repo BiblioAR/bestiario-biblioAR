@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestiario Vivo — Agradecimiento</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+</head>
+<body>
+    <!--
+      "agradecimiento.mind" se compila a partir de UNA sola imagen: la ilustración
+      del dragón de la página de agradecimientos. Va en esta misma carpeta.
+    -->
+    <a-scene mindar-image="imageTargetSrc: agradecimiento.mind;"
+             color-space="sRGB"
+             renderer="colorManagement: true, physicallyCorrectLights: false"
+             vr-mode-ui="enabled: false"
+             device-orientation-permission-ui="enabled: false">
+
+        <a-assets>
+            <video id="video-agradecimiento" src="agradecimiento-video.mp4" preload="auto" loop muted playsinline webkit-playsinline></video>
+        </a-assets>
+
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <a-entity id="target-0" mindar-image-target="targetIndex: 0">
+            <a-video src="#video-agradecimiento" position="0 0 0" scale="1 1.333 1"></a-video>
+        </a-entity>
+
+    </a-scene>
+
+    <script>
+        const videoEl = document.querySelector('#video-agradecimiento');
+        const target = document.querySelector('#target-0');
+
+        target.addEventListener('targetFound', () => {
+            videoEl.currentTime = 0;
+            videoEl.muted = false;
+            videoEl.play();
+        });
+
+        target.addEventListener('targetLost', () => {
+            videoEl.pause();
+        });
+    </script>
+</body>
+</html>
